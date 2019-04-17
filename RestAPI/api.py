@@ -79,12 +79,39 @@ class Search(Resource):
             return {'error': str(e)}
     def get(self):
         return{'about':'getMethodCalled'}
+class Delete(Resource):
+    def post(self):
+        try:
+            # Parse the arguments
+            parser = reqparse.RequestParser()
+            parser.add_argument('emailid', type=str, help='EMAIL ID FOR USER')
+            args = parser.parse_args()
+
+            _userEmail = args['emailid']
+            print(_userEmail)
+            conn = mysql.connect()
+            #print("1")
+            cursor = conn.cursor()
+            #print("2")
+            cursor.callproc('spSearch',(_userEmail,))
+            data = cursor.fetchall()
+            if (len(data)>0):
+                cursor.callproc('spDelete',(_userEmail,))
+                conn.commit()
+                return {'Success':'Record Found and Deleted'}
+            else:
+                return{'about':'Record Not Found'}
+        except Exception as e:
+            return {'error': str(e)}
+    def get(self):
+        return{'about':'getMethodCalled'}
 class Test(Resource):
     def post(self):
         return{'about':'submit button clicked!'}
 api.add_resource(CreateUser, '/CreateUser')
 api.add_resource(Search, '/Search')
 api.add_resource(Test, '/Test')
+api.add_resource(Delete,'/Delete')
 api.add_resource(FormPage, '/')
 
 if __name__ == '__main__':

@@ -58,26 +58,33 @@ class Search(Resource):
         try:
             # Parse the arguments
             parser = reqparse.RequestParser()
-            parser.add_argument('emailidSearch', type=str, help='EMAIL ID FOR USER')
+            parser.add_argument('emailid', type=str, help='EMAIL ID FOR USER')
             args = parser.parse_args()
 
-            _userEmail = 'xyz@gmail.com'
-            #return {'useremail':_userEmail}
+            _userEmail = args['emailid']
+            print(_userEmail)
             conn = mysql.connect()
+            #print("1")
             cursor = conn.cursor()
-            cursor.callproc('spSearch',(_userEmail))
+            #print("2")
+            cursor.callproc('spSearch',(_userEmail,))
+            #print("3")
             data = cursor.fetchall()
-            if len(data) is 0:
-                conn.commit()
-                return {'StatusCode':'200','Message': 'Operation Success'}
+            #print(str(data[0][0]))
+            if (len(data)>0):
+                return {'StatusCode':'200','Username': str(data[0][0]),'Email':str(data[0][1]),'PhoneNumber':str(data[0][2]),'Password':str(data[0][3]),'Time':str(data[0][4])}
             else:
-                return {'StatusCode':'1000','Message': str(data[0])}
+                return {'StatusCode':'1000','Message': "not found"}
         except Exception as e:
             return {'error': str(e)}
     def get(self):
         return{'about':'getMethodCalled'}
+class Test(Resource):
+    def post(self):
+        return{'about':'submit button clicked!'}
 api.add_resource(CreateUser, '/CreateUser')
 api.add_resource(Search, '/Search')
+api.add_resource(Test, '/Test')
 api.add_resource(FormPage, '/')
 
 if __name__ == '__main__':

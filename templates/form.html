@@ -56,8 +56,8 @@
                 <input type="email" id="emailid" name="emailid">
             </div>
             <div>
-                <label for="phonenumber">Phone Number:</label>
-                <input type="tel" id="phonenumber" name="phonenumber">
+                <label for="phonenumber">Phone Number(10 digit format):</label>
+                  <input id="phonenumber" type="tel" name="phonenumber" pattern="^\d{10}$" required >
             </div>
             <div class="button">
                 <button type="submit" id="submitbutton">Submit Form</button>

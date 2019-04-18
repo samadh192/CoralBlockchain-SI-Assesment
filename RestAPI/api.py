@@ -8,8 +8,8 @@ app = Flask(__name__)
 mysql = MySQL()
 
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'dummyUser'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'dummyUser01'
+app.config['MYSQL_DATABASE_USER'] = '*********'
+app.config['MYSQL_DATABASE_PASSWORD'] = '***********'
 app.config['MYSQL_DATABASE_DB'] = 'db_intern'
 app.config['MYSQL_DATABASE_HOST'] = 'db-intern.ciupl0p5utwk.us-east-1.rds.amazonaws.com'
 

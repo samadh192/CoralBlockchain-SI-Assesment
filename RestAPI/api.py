@@ -8,8 +8,8 @@ app = Flask(__name__)
 mysql = MySQL()
 
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = '*********'
-app.config['MYSQL_DATABASE_PASSWORD'] = '***********'
+app.config['MYSQL_DATABASE_USER'] = 'dummyUser'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'dummyUser01'
 app.config['MYSQL_DATABASE_DB'] = 'db_intern'
 app.config['MYSQL_DATABASE_HOST'] = 'db-intern.ciupl0p5utwk.us-east-1.rds.amazonaws.com'
 
@@ -22,7 +22,7 @@ class FormPage(Resource):
         pass
     def get(self):
         headers ={'Content-Type':'text/html'}
-        return make_response(render_template('form.html'),200,headers)
+        return make_response(render_template('formmod.html'),200,headers)
 
 class CreateUser(Resource):
     def post(self):
@@ -46,7 +46,8 @@ class CreateUser(Resource):
             data = cursor.fetchall()
             if len(data) is 0:
                 conn.commit()
-                return {'StatusCode':'200','Message': 'Operation Success'}
+                #return {'StatusCode':'200','Message': 'Operation Success'}
+                return make_response(render_template('Success.html'))
             else:
                 return {'StatusCode':'1000','Message': str(data[0])}
         except Exception as e:

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FORM</title>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <style type="text/css">
+            .form-style{
+                font-family: 'Open Sans Condensed', arial, sans;
+                width: 500px;
+                padding: 30px;
+                background: #FFFFFF;
+                margin: 50px auto;
+                box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+                -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+                -webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
+            
+            }
+            .form-style h2{
+                background: #4D4D4D;
+                text-transform: uppercase;
+                font-family: 'Open Sans Condensed', sans-serif;
+                color: #797979;
+                font-size: 18px;
+                font-weight: 100;
+                padding: 20px;
+                margin: -30px -30px 30px -30px;
+            }
+            .form-style input[type="text"],
+            .form-style input[type="date"],
+            .form-style input[type="datetime"],
+            .form-style input[type="email"],
+            .form-style input[type="tel"],
+            .form-style input[type="search"],
+            .form-style input[type="time"],
+            .form-style input[type="url"],
+            .form-style input[type="password"],
+            .form-style textarea,
+            .form-style select 
+            {
+                box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                outline: none;
+                display: block;
+                width: 100%;
+                padding: 7px;
+                border: none;
+                border-bottom: 1px solid #ddd;
+                background: transparent;
+                margin-bottom: 10px;
+                font: 16px Arial, Helvetica, sans-serif;
+                height: 45px;
+            }
+            .form-style textarea{
+                resize:none;
+                overflow: hidden;
+            }
+            .form-style input[type="button"], 
+            .form-style input[type="submit"]{
+                -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+                -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+                box-shadow: inset 0px 1px 0px 0px #45D6D6;
+                background-color: #2CBBBB;
+                border: 1px solid #27A0A0;
+                display: inline-block;
+                cursor: pointer;
+                color: #FFFFFF;
+                font-family: 'Open Sans Condensed', sans-serif;
+                font-size: 14px;
+                padding: 8px 18px;
+                text-decoration: none;
+                text-transform: uppercase;
+            }
+            .form-style input[type="button"]:hover, 
+            .form-style input[type="submit"]:hover {
+                background:linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
+                background-color:#34CACA;
+            }
+            </style>
+    </head>
+    <body>
+    <div class="form-style">
+        <h2>Create/Update User:</h2>
+        <form action="/CreateUser" method="post" id="CreateUserForm">
+            <div>
+                <label for="username">User Name:</label>
+                <input type="text" id="username" name="username">
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <div>
+                <label for="emailid">Email ID:</label>
+                <input type="email" id="emailid" name="emailid">
+            </div>
+            <div>
+                <label for="phonenumber">Phone Number(10 digit format):</label>
+                  <input id="phonenumber" type="tel" name="phonenumber" pattern="^\d{10}$" required >
+            </div>
+            <div>
+                <button type="submit" id="submitbutton">Submit Form</button>
+            </div>
+        </form>
+        <br><br>
+        <h2>Search User Record:</h2>
+        <form action="/Search" method="post" id="SearchForm">
+            <div>
+                <label for="emailid">Email ID:</label>
+                <input type="email" id="emailid" name="emailid">
+            </div>
+            <div>
+                <button type="submit" id="submitbutton2">Search</button>
+            </div>
+        </form>
+        <br><br>
+        <h2>Delete User Record:</h2>
+        <form action="/Delete" method="post" id="DeleteForm">
+            <div>
+                <label for="emailid">Email ID:</label>
+                <input type="email" id="emailid" name="emailid">
+            </div>
+            <div>
+                <button type="submit" id="submitbutton3">Delete Record</button>
+            </div>
+        </form>
+    </div>
+    </body>
+</html>

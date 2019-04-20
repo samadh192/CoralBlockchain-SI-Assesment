@@ -3,7 +3,6 @@ package main
 import (
 	"html/template"
 	"net/http"
-	"fmt"
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -11,11 +10,11 @@ import (
 var tpl *template.Template
 
 type User struct {
-	userName   string 
-	emailId string 
-	phoneNo string 
-	password string
-	dateTime string
+	UserName   string 
+	EmailId string 
+	PhoneNo string 
+	Password string
+	DateTime string
 }
 
 func init(){
@@ -64,13 +63,13 @@ func CreateUser(w http.ResponseWriter, r *http.Request){
 	}
 	var user User
 	for results.Next(){
-		err= results.Scan(&user.userName,&user.emailId,&user.phoneNo,&user.password,&user.dateTime)
+		err= results.Scan(&user.UserName,&user.EmailId,&user.PhoneNo,&user.Password,&user.DateTime)
 		if err!= nil{
 			panic(err.Error())
 		}
 	}
-	//fmt.Println(user.emailId)
-	if(len(user.emailId)>0){	
+	//fmt.Println(user.EmailId)
+	if(len(user.EmailId)>0){	
 		//fmt.Fprintln(w,"Already exists")
 		//code to update table
 		update, err:=db.Query("UPDATE userData SET userName='"+_userName+"',phoneNo='"+_userPhonenumber+"',password='"+_userPassword+"',dateTime=NOW() where emailId='"+_userEmailid+"'");
@@ -78,7 +77,8 @@ func CreateUser(w http.ResponseWriter, r *http.Request){
 			panic(err.Error())
 		}
 		defer update.Close()
-		fmt.Fprintln(w,"Data succesfully update for "+user.emailId)
+		//fmt.Fprintln(w,"Data succesfully updated for "+user.EmailId)
+		tpl.ExecuteTemplate(w,"Display.html","Data succesfully updated for "+user.EmailId)
 	}else{
 		//fmt.Fprintln(w,"Dosent exist")
 		//code to insert into table
@@ -87,7 +87,8 @@ func CreateUser(w http.ResponseWriter, r *http.Request){
 			panic(err.Error())
 		}
 		defer insert.Close()
-		fmt.Fprintln(w,"Data successfully Inserted")
+		//fmt.Fprintln(w,"Data successfully Inserted")
+		tpl.ExecuteTemplate(w,"Display.html","Data succesfully Inserted")
 	}
 	
 	//fmt.Println("Successfully inserted")
@@ -115,19 +116,20 @@ func Search(w http.ResponseWriter,r *http.Request){
 	}
 	var user User
 	for results.Next(){
-		err= results.Scan(&user.userName,&user.emailId,&user.phoneNo,&user.password,&user.dateTime)
+		err= results.Scan(&user.UserName,&user.EmailId,&user.PhoneNo,&user.Password,&user.DateTime)
 		if err!= nil{
 			panic(err.Error())
 		}
 	}
-	if(len(user.emailId)>0){	
-		fmt.Fprintln(w,"Username:"+user.userName)
-		fmt.Fprintln(w,"EmailId:"+user.emailId)
-		fmt.Fprintln(w,"PhoneNo:"+user.phoneNo)
-		fmt.Fprintln(w,"Password:"+user.password)
-		fmt.Fprintln(w,"Time:"+user.dateTime)
+	if(len(user.EmailId)>0){	
+		/*fmt.Fprintln(w,"Username:"+user.UserName)
+		fmt.Fprintln(w,"EmailId:"+user.EmailId)
+		fmt.Fprintln(w,"PhoneNo:"+user.PhoneNo)
+		fmt.Fprintln(w,"Password:"+user.Password)
+		fmt.Fprintln(w,"Time:"+user.DateTime)*/
+		tpl.ExecuteTemplate(w,"SearchResults.html",user)
 	}else{
-		fmt.Fprintln(w,"Record Dosent exist!")
+		tpl.ExecuteTemplate(w,"Display.html","Record Dosent Exist")
 	}
 }
 func Delete(w http.ResponseWriter,r *http.Request){
@@ -153,19 +155,19 @@ func Delete(w http.ResponseWriter,r *http.Request){
 	}
 	var user User
 	for results.Next(){
-		err= results.Scan(&user.userName,&user.emailId,&user.phoneNo,&user.password,&user.dateTime)
+		err= results.Scan(&user.UserName,&user.EmailId,&user.PhoneNo,&user.Password,&user.DateTime)
 		if err!= nil{
 			panic(err.Error())
 		}
 	}
-	if(len(user.emailId)>0){	
+	if(len(user.EmailId)>0){	
 		delete,err :=db.Query("Delete from userData where emailId='"+_userEmailid+"'")
 		if err!=nil{
 			panic(err.Error())
 		}
-		fmt.Fprintln(w,"Record found and deleted!")
+		tpl.ExecuteTemplate(w,"Display.html","Record found and deleted!")
 		defer delete.Close()	
 	}else{
-		fmt.Fprintln(w,"Record Dosent exist!")
+		tpl.ExecuteTemplate(w,"Display.html","Record dosen't exist!")
 	}
 }

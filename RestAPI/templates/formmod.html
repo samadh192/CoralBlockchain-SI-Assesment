@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>FORM</title>
+        <!-- <link rel="stylesheet" type="text/css" href="/home/awesomedave/go/src/Sample/templates/index.css"> -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
         <style type="text/css">
             .form-style{
@@ -52,10 +53,10 @@
                 height: 45px;
             }
             .form-style textarea{
-                resize:none;
+                resize:none; onclick="resetForm()"
                 overflow: hidden;
             }
-            .form-style input[type="button"], 
+            /* .form-style input[type="button"], 
             .form-style input[type="submit"]{
                 -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
                 -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
@@ -75,8 +76,14 @@
             .form-style input[type="submit"]:hover {
                 background:linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
                 background-color:#34CACA;
+            } */
+            .But-mod {
+                padding: 10px;
+                /* background:linear-gradient(to bottom, rgb(0, 86, 93) 5%, rgb(0, 3, 192) 100%); */
+                background-color: #4d4d4d;
+                color: #797979;
             }
-            </style>
+        </style>
     </head>
     <body>
     <div class="form-style">
@@ -84,11 +91,11 @@
         <form action="/CreateUser" method="post" id="CreateUserForm">
             <div>
                 <label for="username">User Name:</label>
-                <input type="text" id="username" name="username">
+                <input type="text" id="username" name="username" pattern=".{1,}" title="Can't be empty">
             </div>
             <div>
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password">
+                <input type="password" id="password" name="password" pattern=".{6,}" title="Six or more characters">
             </div>
             <div>
                 <label for="emailid">Email ID:</label>
@@ -96,10 +103,10 @@
             </div>
             <div>
                 <label for="phonenumber">Phone Number(10 digit format):</label>
-                  <input id="phonenumber" type="tel" name="phonenumber" pattern="^\d{10}$" required >
+                  <input id="phonenumber" type="tel" name="phonenumber" pattern="^\d{10}$" title="Enter valid 10 digit number" >
             </div>
             <div>
-                <button type="submit" id="submitbutton">Submit Form</button>
+                <button type="submit" id="submitbutton" class="But-mod">Submit Form</button>
             </div>
         </form>
         <br><br>
@@ -109,8 +116,8 @@
                 <label for="emailid">Email ID:</label>
                 <input type="email" id="emailid" name="emailid">
             </div>
-            <div class="button">
-                <button type="submit" id="submitbutton2">Search</button>
+            <div>
+                <button type="submit" id="submitbutton2" class="But-mod">Search</button>
             </div>
         </form>
         <br><br>
@@ -120,10 +127,11 @@
                 <label for="emailid">Email ID:</label>
                 <input type="email" id="emailid" name="emailid">
             </div>
-            <div class="button">
-                <button type="submit" id="submitbutton3">Delete Record</button>
+            <div>
+                <button type="submit" id="submitbutton3" class="But-mod">Delete Record</button>
             </div>
         </form>
     </div>
+</script>
     </body>
 </html>

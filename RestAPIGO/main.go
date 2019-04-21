@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"golang.org/x/crypto/bcrypt"
 )
 
 //parser for templates
@@ -23,6 +24,12 @@ type User struct {
 //init() initialises tpl to recognize all html files in the templates folder
 func init(){
 	tpl=template.Must(template.ParseGlob("templates/*.html"))
+}
+
+//Hash function to calculate Hash of password
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
 }
 
 //main() function
@@ -64,6 +71,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request){
 	//Accessing Form Values
 	_userName := r.FormValue("username")
 	_userPassword := r.FormValue("password")
+	hash,_ := HashPassword(_userPassword)
 	_userEmailid := r.FormValue("emailid")
 	_userPhonenumber := r.FormValue("phonenumber")
 	
@@ -85,7 +93,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request){
 	//If emailId already exists
 	if(len(user.EmailId)>0){	
 		//Query to update table
-		update, err:=db.Query("UPDATE userData SET userName='"+_userName+"',phoneNo='"+_userPhonenumber+"',password='"+_userPassword+"',dateTime=NOW() where emailId='"+_userEmailid+"'");
+		update, err:=db.Query("UPDATE userData SET userName='"+_userName+"',phoneNo='"+_userPhonenumber+"',password='"+hash+"',dateTime=NOW() where emailId='"+_userEmailid+"'");
 		if err != nil{
 			panic(err.Error())
 		}
